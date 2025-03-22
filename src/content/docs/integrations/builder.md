@@ -1,0 +1,19 @@
+---
+title: Builder
+description: Builder Features
+contributors:
+  - dtarnawsky
+---
+
+The extension has additional features for [Builder.io](https://builder.io/). Builder provides a Visual CMS and Figma to Code AI services.
+
+
+## Integrate Builder
+
+Click `Integrate Builder` to install [Builder's dev tools](https://www.builder.io/c/docs/devtools) into the current project and connect to your Builder account. 
+
+Builder supports React, Svelte, Vue, Quik, React Native, Angular and other frameworks.
+
+## Features
+
+As well as quick integration of the Publish product you also get enhanced capture of command line calls from the [Figma Plugin](https://www.builder.io/m/design-to-code) making it easy to create user interfaces from Figma designs.

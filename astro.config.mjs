@@ -6,23 +6,43 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
 	integrations: [
 		starlight({
-			title: 'My Docs',
+			title: '',
+			logo: {
+				src: './src/assets/webnative.svg',
+			},
 			social: {
-				github: 'https://github.com/withastro/starlight',
+				github: 'https://github.com/damiant/vscode-webnative',
 			},
 			sidebar: [
 				{
-					label: 'Guides',
+					label: 'Introduction',
 					items: [
-						// Each item here is one entry in the navigation menu.
-						{ label: 'Example Guide', slug: 'guides/example' },
+						// Each item here is one entry in the navigation menu.						
+						{ label: 'Getting Started', slug: 'introduction/getting-started' },
+						{ label: 'New Projects', slug: 'introduction/new-project' },
 					],
 				},
 				{
-					label: 'Reference',
-					autogenerate: { directory: 'reference' },
+					label: 'Web Projects',
+					autogenerate: { directory: 'web-projects' },
 				},
+				{
+					label: 'Features',
+					autogenerate: { directory: 'features' },
+				},				
+				{
+					label: 'Capacitor',
+					autogenerate: { directory: 'capacitor' },
+				},
+				{
+					label: 'Integrations',
+					autogenerate: { directory: 'integrations' },
+				}
 			],
+			customCss: [
+				// Relative path to your custom CSS file
+				'./src/styles/custom.css',
+			  ]
 		}),
 	],
 });

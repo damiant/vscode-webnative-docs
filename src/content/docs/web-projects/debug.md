@@ -1,0 +1,23 @@
+---
+title: Debug
+description: Debugging Web Projects
+contributors:
+  - dtarnawsky
+---
+
+
+Click `Debug` to launch your web application while debugging in your IDE.
+
+Using this feature you can set breakpoints, inspect variables and step through code.
+
+:::tip
+Click the Debug icon in the status bar to quickly debug your app.
+:::
+
+The run command is guessed by inspecting your project. If you want to see the commands run in the terminal click `Advanced` > `Show Logs`.
+
+## Settings
+
+You can choose the browser that is launched when debugging by:
+- Clicking the `...` icon next to `Debug`.
+
