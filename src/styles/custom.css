@@ -1,10 +1,8 @@
-
-
 .grid img {
-  background-color: rgba(0,0,0,0.9);
+  background-color: rgba(0, 0, 0, 0.9);
   width: 150px;
   height: 150px;
-  padding: 1rem;  
+  padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,10 +28,9 @@
   margin-bottom: 1rem;
 }
 
-
 .sz-medium {
-    width: 150px;
-    height: 150px;
+  width: 150px;
+  height: 150px;
 }
 
 span img {
@@ -41,6 +38,19 @@ span img {
   margin-top: -100px;
   float: right;
   padding-left: 1rem;
+}
+
+.subfooter {
+  margin-top: 5rem !important;
+  text-align: center;
+  padding-bottom: 2rem;
+  padding-top: 2rem;
+  background-color: var(--sl-color-gray-7);
+a {
+  padding: 1rem;
+  text-decoration: none;
+  color: var(--sl-color-text);
+}
 }
 
 @media (max-width: 600px) {
@@ -60,4 +70,3 @@ span img {
     font-size: small;
   }
 }
-

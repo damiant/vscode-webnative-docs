@@ -1,7 +1,11 @@
 
+:root {
+  --sl-color-text-accent: #F57C00 !important; 
+  --sl-hue-purple: 391 !important;
+  --sl-hue-blue: 401 !important;
+}
 /* poppins-regular - latin */
-@font-face {
-    font-display: swap;
+@font-face {    
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 400;
@@ -9,7 +13,6 @@
   }
   /* poppins-600 - latin */
   @font-face {
-    font-display: swap;
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 600;
@@ -17,7 +20,6 @@
   }
   /* poppins-700 - latin */
   @font-face {
-    font-display: swap;
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 700;
