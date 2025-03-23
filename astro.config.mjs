@@ -9,6 +9,7 @@ export default defineConfig({
 			title: '',
 			logo: {
 				src: './src/assets/webnative.svg',
+				alt: 'WebNative Logo',
 			},
 			social: {
 				github: 'https://github.com/damiant/vscode-webnative',
