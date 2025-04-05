@@ -8,6 +8,8 @@ contributors:
 
 Click `Debug` to launch your web application while debugging in your IDE.
 
+![Debug](./debugging.gif)
+
 Using this feature you can set breakpoints, inspect variables and step through code.
 
 :::tip

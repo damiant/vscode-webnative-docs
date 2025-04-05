@@ -7,6 +7,7 @@ contributors:
 
 Keeping your dependencies up to date will ensure you are using supported and [secure](#security-vulnerabilities) products. Ignoring updates will increase your technical debt making it harder to update in the future. 
 
+![Dependencies](./dependencies.gif)
 
 ## Updating One Dependency
 

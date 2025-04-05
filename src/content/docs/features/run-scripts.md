@@ -7,8 +7,9 @@ contributors:
 
 Your `package.json` contains scripts to run tests, linting, building etc. Run these with the extension to get support for error assistance which will show where in code the error occurred.
 
-## Running Scripts
+![Running Scripts](./run-scripts.gif)
 
+## Running Scripts
 - Click `Scripts` to expand which scripts can be run.
 - Click one of the scripts
 

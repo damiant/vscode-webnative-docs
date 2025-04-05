@@ -7,6 +7,7 @@ contributors:
 
 To Build your web project click the `Build` item. 
 
+![Building](./building.gif)
 
 :::tip
 Press `⌥` + B to run your app (`ALT` + `B` on Windows).
