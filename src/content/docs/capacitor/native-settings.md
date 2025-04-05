@@ -8,6 +8,10 @@ contributors:
 
 Your native projects Version, Bundle Id and Display Name can be easily read and changed.
 
+import Video from '../../../components/video.astro';
+
+<Video src="https://videos.webnative.dev/native-settings.mp4" alt="Native Settings" controls />
+
 ![Native Settings](./native-settings.png)
 
 Click `Configuration` > `Properties` to change:
