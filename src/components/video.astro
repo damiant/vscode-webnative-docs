@@ -1,0 +1,47 @@
+---
+interface Props {
+  src: string;
+  alt?: string;
+  autoplay?: boolean;
+  controls?: boolean;
+  loop?: boolean;
+  muted?: boolean;
+}
+
+const { 
+  src, 
+  alt = "Video", 
+  autoplay = false, 
+  controls = true, 
+  loop = false, 
+  muted = false 
+} = Astro.props;
+---
+
+<div class="video-container">
+  <video 
+    width="100%" 
+    {autoplay} 
+    {controls} 
+    {loop} 
+    {muted}
+    autoplay
+    playsinline>
+    <source src={src} type="video/mp4" />
+    {alt && <p>{alt}</p>}
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+<style>
+  .video-container {
+    margin: 1rem 0;
+  }
+  
+  video {
+    display: block;
+    max-width: 100%;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+</style>
