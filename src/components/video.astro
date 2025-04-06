@@ -2,6 +2,7 @@
 interface Props {
   src: string;
   alt?: string;
+  aspectRatio?: string;
   autoplay?: boolean;
   controls?: boolean;
   loop?: boolean;
@@ -10,7 +11,8 @@ interface Props {
 
 const { 
   src, 
-  alt = "Video", 
+  alt = "Video",
+  aspectRatio = "2.7 / 2",
   autoplay = true, 
   controls = true, 
   loop = true, 
@@ -25,6 +27,7 @@ const {
     {controls} 
     {loop} 
     {muted}
+    style={`aspect-ratio: ${aspectRatio}`}
     playsinline>
     <source src={src} type="video/mp4" />
     {alt && <p>{alt}</p>}
@@ -40,7 +43,6 @@ const {
   video {
     display: block;
     max-width: 100%;
-    aspect-ratio: 2.7 / 2;
     border-radius: 0.5rem;
   }
 </style>
