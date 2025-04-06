@@ -11,9 +11,9 @@ interface Props {
 const { 
   src, 
   alt = "Video", 
-  autoplay = false, 
+  autoplay = true, 
   controls = true, 
-  loop = false, 
+  loop = true, 
   muted = false 
 } = Astro.props;
 ---
@@ -25,7 +25,6 @@ const {
     {controls} 
     {loop} 
     {muted}
-    autoplay
     playsinline>
     <source src={src} type="video/mp4" />
     {alt && <p>{alt}</p>}
