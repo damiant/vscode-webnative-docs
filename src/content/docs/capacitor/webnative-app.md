@@ -18,4 +18,4 @@ If you are on the same WIFI network then the WebNative app will detect your appl
 The app comes with a list of pre-installed plugins that you can use in your app:
 - [Plugin List](https://webnative.app/capacitor)
 
-The Webnative mobile app is open source and can be found [here](https://github.com/damiant/nexus-browser).
+The Webnative mobile app is open source and can be found [here](https://github.com/damiant/webnative-app).
