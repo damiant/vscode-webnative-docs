@@ -10,9 +10,9 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astro-community/astro-embed-youtube": "^0.5.6",
-    "@astrojs/starlight": "^0.32.4",
+    "@astro-community/astro-embed-youtube": "0.5.9",
+    "@astrojs/starlight": "0.36.2",
     "astro": "^5.5.3",
-    "sharp": "^0.32.5"
+    "sharp": "0.34.5"
   }
 }
