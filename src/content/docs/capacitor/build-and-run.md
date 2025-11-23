@@ -44,6 +44,6 @@ The feature (`Settings` > `Use HTTPS`) will create a certificate and serve your 
 The option to serve your application via `HTTPS` is required if you make Web API calls that require a [secure context](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts) like [Geolocation](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation).
 
 :::note
-This feature is currently only available with Angular projects and will temporarily install [a plugin](https://github.com/jcesarmobile/ssl-skip) due to a quirk with the Android web view not trusting user installed CA Certificates.
+This feature is currently only available with Angular projects and will temporarily install [a plugin](https://github.com/jcesarmobile/ssl-skip) due to a quirk with the Android web view not trusting user-installed CA certificates.
 :::
 

@@ -15,4 +15,4 @@ Follow these steps to create a **new starter project**:
 
 
 
-After a brief install process your starter project is ready to work on.
+After a brief install process, your starter project is ready to work on.

@@ -8,7 +8,7 @@ contributors:
 
 Click `Run` to launch your web application. By default it will launch in the default browser.
 
-You also view it in a VS Code editor window, or a mobile browser or app by scanning the QR Code displayed.
+You can also view it in a VS Code editor window, or in a mobile browser or app by scanning the QR Code displayed.
 
 :::tip
 Press `⌥` + R to run your app (`ALT` + `R` on Windows) or click the `▶` icon in the status bar.

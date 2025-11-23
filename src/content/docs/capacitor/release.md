@@ -9,7 +9,7 @@ Preparing your application to release to the App Store or Play Store involves fi
 
 ## App Store
 
-For iOS you need your app built into an `IPA` file:
+For iOS, you need your app built into an `.ipa` file:
 - Click `Project` > `Prepare Release`
 - Choose `IOS Release Build (.ipa)`
 - The IPA file will be saved in the folder `ios/App/output`
@@ -21,7 +21,7 @@ The first time you generate an IPA you need to specify the development team of y
 
 ## Play Store
 
-For Android you need your app built into an `AAB` file:
+For Android, you need your app built into an `.aab` file:
 - Click `Project` > `Prepare Release`
 - Choose `Android Release Build (.aab)`
 - Enter the `keystore password`
