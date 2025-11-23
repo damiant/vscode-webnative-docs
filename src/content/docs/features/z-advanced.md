@@ -30,14 +30,14 @@ The extension will guess the location of Android Studio to be able to find the l
 
 ### Set Shell Path
 
-The default shell is `/bin/sh` on a Mac or `cmd` on Windows. You can change the default shell used by clicking `Setting` > `Advanced` and setting `Shell Path`. For example: `/bin/zsh`.
+The default shell is `/bin/sh` on a Mac or `cmd` on Windows. You can change the default shell used by clicking `Settings` > `Advanced` and setting `Shell Path`. For example: `/bin/zsh`.
 
 ### ADB Path
 
-ADB is used when debugging Android devices. The Location of the Android Debug Bridge (ADB) can be change by clicking `Settings` > `Advanced` and setting `Adb Path`.
+ADB is used when debugging Android devices. The location of the Android Debug Bridge (ADB) can be changed by clicking `Settings` > `Advanced` and setting `Adb Path`.
 
 ### Other Features
 
-Click the `...` button next to `Project` to show a list of expermental features:
+Click the `...` button next to `Project` to show a list of experimental features:
 - **Migrate from NPM to PNPM** - Your project will be switched to use pnpm as its package manager.
 - **Rebuild Node Modules** - The `node_modules` folder will be deleted and `npm install` will be run to restore the folder.

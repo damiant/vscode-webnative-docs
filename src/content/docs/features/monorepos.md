@@ -17,4 +17,4 @@ The list of supported Monorepo types include:
 - **[Pnpm Workspaces](https://pnpm.io/workspaces)** - Multi project support for [pnpm](https://pnpm.io/) (an alternative to npm).
 - **[Lerna](https://lerna.js.org/)** - A tool for managing and publishing packages from the same repository.
 - **Multiple Folder** - If you keep your projects in sub folders.
-- **[VSCode Workspaces](https://code.visualstudio.com/docs/editor/workspaces#_multiroot-workspaces)** - If you use VSCodes multi-root workspace file
+- **[VSCode Workspaces](https://code.visualstudio.com/docs/editor/workspaces#_multiroot-workspaces)** - If you use VS Code's multi-root workspace file
