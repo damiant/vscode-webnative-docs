@@ -1,42 +1,58 @@
 # Copilot Instructions for WebNative Docs
 
-## Project Overview
-- This is a documentation site for the WebNative VS Code Extension, built with [Astro Starlight](https://starlight.astro.build).
-- Content is organized in Markdown/MDX files under `src/content/docs/`, each file mapping to a route.
-- Images are stored in `src/assets/` and referenced via relative links in docs.
-- Static assets (favicons, etc.) go in `public/`.
+## Overview
+- Static documentation site for the WebNative VS Code extension, built with Astro Starlight.
+- Pages are `.md`/`.mdx` under [src/content/docs/](../src/content/docs); each file maps to a route by path.
+- Images live in [src/assets/](../src/assets); public, non-processed assets in [public/](../public).
 
-## Key Files & Structure
-- `astro.config.mjs`: Astro configuration.
-- `tsconfig.json`: TypeScript config for type safety.
-- `src/content/docs/`: Main documentation source (MD/MDX).
-- `src/assets/`: Images for documentation.
-- `src/components/`: Astro components (e.g., `video.astro`).
-- `content.config.ts`: Content configuration for Starlight.
+## Architecture
+- Starlight integration configured in [astro.config.mjs](../astro.config.mjs): sets `logo`, `social`, `customCss`, and `sidebar`.
+- Sidebar mixes manual entries and `autogenerate` for directories: `web-projects`, `features`, `capacitor`, `integrations`.
+- MDX can import Astro and Starlight components. Example usage in [src/content/docs/index.mdx](../src/content/docs/index.mdx):
+	- Frontmatter fields like `title`, `description`, `template`, `hero` with `actions`.
+	- Embeds: `@astro-community/astro-embed-youtube` and local [src/components/video.astro](../src/components/video.astro).
+- Styling via [src/styles/global.css](../src/styles/global.css) and [src/styles/custom.css](../src/styles/custom.css) registered in config.
 
-## Developer Workflows
-- **Install dependencies:** `npm install`
-- **Start dev server:** `npm run dev` (local at `localhost:4321`)
-- **Build site:** `npm run build` (output to `./dist/`)
-- **Preview build:** `npm run preview`
-- **Astro CLI:** `npm run astro ...` (e.g., `astro add`, `astro check`)
+## Workflows
+- Install and run locally:
 
-## Patterns & Conventions
-- All documentation lives in `src/content/docs/` as `.md` or `.mdx`.
-- Use relative paths for images from `src/assets/`.
-- Custom components (Astro) can be used in MDX files for rich content.
-- No custom build/test scripts beyond standard Astro commands.
-- No backend/server code; this is a static site.
+```bash
+npm install
+npm run dev   # http://localhost:4321
+```
 
-## Integration Points
-- Built on Astro Starlight; refer to [Starlight docs](https://starlight.astro.build) for advanced features.
-- No external APIs or dynamic data sources.
+- Build and preview:
 
-## Example: Adding a Doc Page
-1. Create a new `.mdx` file in `src/content/docs/` (e.g., `features/new-feature.mdx`).
-2. Add content using Markdown/MDX syntax. Import Astro components if needed.
-3. Reference images from `src/assets/`.
-4. Run `npm run dev` to preview locally.
+```bash
+npm run build   # outputs to ./dist
+npm run preview
+```
 
----
-For more details, see `README.md` and `astro.config.mjs`.
+- Astro CLI utilities:
+
+```bash
+npm run astro -- --help
+npm run astro add <integration>
+npm run astro check
+```
+
+## Conventions & Patterns
+- Place docs under directory that matches sidebar section to appear automatically (e.g., [src/content/docs/features/](../src/content/docs/features)).
+- Use relative image links from `src/assets` in Markdown (see logos in [src/content/docs/index.mdx](../src/content/docs/index.mdx)).
+- Prefer MDX when embedding components: import then use the component tag.
+- Link to VS Code resources using the `vscode:` protocol as in the homepage action.
+- Keep content static; there is no backend or dynamic data fetching.
+
+## Dependencies
+- Core: `astro@^5`, `@astrojs/starlight@0.36.x`, `sharp@0.34.x` for image processing.
+- Embeds: `@astro-community/astro-embed-youtube` for YouTube components.
+- ESM project (`"type": "module"` in [package.json](../package.json)).
+
+## Add/Update a Page
+1. Create `.mdx` in the appropriate folder (e.g., within [src/content/docs/capacitor/](../src/content/docs/capacitor/)).
+2. Include frontmatter (`title`, optional `description`; homepage uses `template: splash` and `hero`).
+3. Add content; import components as needed (e.g., `YouTube`, `Video`).
+4. Use relative assets from [src/assets](../src/assets) or place files in [public](../public).
+5. Run the dev server to verify navigation and styling.
+
+See [README.md](../README.md) and [astro.config.mjs](../astro.config.mjs) for details on structure and navigation.
