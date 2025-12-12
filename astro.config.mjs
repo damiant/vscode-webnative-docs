@@ -25,6 +25,7 @@ export default defineConfig({
 						// Each item here is one entry in the navigation menu.						
 						{ label: 'Getting Started', slug: 'introduction/getting-started' },
 						{ label: 'New Projects', slug: 'introduction/new-project' },
+						{ label: 'Donate', slug: 'introduction/donate' },
 					],
 				},
 				{

@@ -5,8 +5,6 @@ contributors:
   - dtarnawsky
 ---
 import { LinkButton } from '@astrojs/starlight/components';
-import Video from "../../../components/video.astro";
-import introVideo from "../../../assets/intro640w.mp4";
 
 This extension makes starting and developing web apps, websites, and mobile apps much easier by trying to eliminate the need to use command line interfaces and providing visual management of your project in [VS Code](https://code.visualstudio.com/).
 
@@ -17,30 +15,6 @@ This extension makes starting and developing web apps, websites, and mobile apps
 </div>
 
 <div style="padding: 2rem"></div>
-
-<div style="display: flex; justify-content: center;">
-  <Video 
-    src={introVideo}
-    alt="Getting Started with WebNative"
-    controls
-    autoplay
-    loop
-    borderRadius="16px"
-    aspectRatio="auto"
-    width="640px"
-  />
-</div>
-
-Hi, I'm Damian, the creator of the WebNative extension (formerly the Ionic extension).
-I built this project out of passion while I was at Ionic and continue to maintain it because I love Capacitor and the web ecosystem.
-
-If this extension has helped you, please consider supporting its development—your one-time or monthly donation keeps it maintained, funds new features, and helps it continue to grow.
-
-Thank you, and happy coding!
-
-<div style="display: flex; justify-content: center;">
-  <LinkButton href="https://github.com/sponsors/damiant">Donate to the project</LinkButton>
-</div>
 
 :::tip
 You can also find the extension by searching for "WebNative" in VS Code or find it [here](https://marketplace.visualstudio.com/items?itemName=webnative.webnative).
