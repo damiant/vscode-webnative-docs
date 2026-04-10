@@ -1,0 +1,50 @@
+---
+title: Send to TestFlight
+description: Guide for sending your iOS build to TestFlight with GitHub Actions.
+---
+
+In the previous tutorial, you built the iOS app with GitHub Actions. You can extend that workflow to upload the build to TestFlight so it can be distributed through App Store Connect.
+
+This guide follows the same flow as the Ionic tutorial for sending an iOS build to TestFlight.
+
+Open `.github/workflows/app-ios.yml` and add the following steps:
+
+```yaml
+      - name: Create private key for TestFlight
+        run: |
+          mkdir ./private_keys
+          echo "${{ secrets.APP_STORE_CONNECT_P8 }}" > ./private_keys/AuthKey_${{ secrets.APP_STORE_CONNECT_KEY_ID }}.p8
+
+      - name: Send to TestFlight
+        run: xcrun altool --upload-app -f output/App.ipa -t ios --apiKey ${{ secrets.APP_STORE_CONNECT_KEY_ID }} --apiIssuer ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+```
+
+This workflow requires the following repository secrets. In your GitHub repository, go to `Settings` > `Secrets and variables` > `Actions` and create these secrets:
+
+- `APP_STORE_CONNECT_KEY_ID`
+- `APP_STORE_CONNECT_ISSUER_ID`
+- `APP_STORE_CONNECT_P8`
+
+## Create an App Store Connect API Key
+
+Sign in to [App Store Connect](https://appstoreconnect.apple.com/access/integrations/api).
+
+1. Go to `Users & Access` > `Integrations`.
+2. Click the `+` button to generate a new API key.
+3. Give the key a name and choose `Developer` as the role.
+4. Click `Generate` to create the key.
+5. Save the `.p8` file.
+
+To create the `APP_STORE_CONNECT_P8` secret, open the `.p8` file in a text editor and copy its contents.
+
+Create the `APP_STORE_CONNECT_KEY_ID` secret by copying the `Key ID` value.
+
+Create the `APP_STORE_CONNECT_ISSUER_ID` secret by copying the `Issuer ID` value.
+
+## Summary
+
+GitHub Actions should now have the secrets and workflow steps required to upload your iOS build to TestFlight.
+
+Review the upload command and output path for your project before relying on the workflow in production.
+
+This workflow builds on the iOS deployment process described in [Deploy iOS](/articles/deploy-ios/).

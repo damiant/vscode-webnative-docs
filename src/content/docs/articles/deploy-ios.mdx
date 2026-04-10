@@ -1,0 +1,161 @@
+---
+title: Deploy iOS
+description: Guide for deploying your app to iOS.
+---
+
+If you use GitHub to host your code, you can use GitHub Actions to build your app for iOS. This is the first step in automating deployment to the App Store.
+
+This guide follows the same workflow as the Ionic tutorial for building an iOS app with GitHub Actions.
+
+1. Create a `.github/workflows` directory in your project root.
+2. Create a file named `app-ios.yml` with the following content:
+
+```yaml
+name: Build iOS
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: macos-13
+    name: Build iOS app
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install the Apple certificate and provisioning profile
+        env:
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: |
+          # create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+
+          # import certificate and provisioning profile from secrets
+          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
+          echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode -o $PP_PATH
+
+          # create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # import certificate to keychain
+          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+
+          # apply provisioning profile
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+
+      - name: Set up XCode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Install app dependencies
+        run: npm install
+
+      - name: Build project app
+        run: npm run build
+
+      - name: Capacitor sync
+        run: npx cap sync
+
+      - name: Build project
+        run: xcodebuild -workspace './ios/App/App.xcworkspace' -scheme App -destination generic/platform=iOS -archivePath App.xcarchive archive
+
+      - name: Create binary (.ipa)
+        run: xcodebuild archive -archivePath App.xcarchive -exportArchive -exportOptionsPlist ./ios/archive.plist -exportPath output -allowProvisioningUpdates
+```
+
+This workflow requires several repository secrets. In your GitHub repository, go to `Settings` > `Secrets and variables` > `Actions` and create these secrets:
+
+- `BUILD_CERTIFICATE_BASE64`
+- `P12_PASSWORD`
+- `BUILD_PROVISION_PROFILE_BASE64`
+- `KEYCHAIN_PASSWORD`
+
+## Export the Certificate
+
+1. In Xcode, open `Xcode` > `Settings...` > `Accounts` > `Manage Certificates...`.
+2. Right-click the Distribution certificate and select `Export Certificate`.
+3. Save the `.p12` file as `app.p12` and enter a password.
+4. Use that password for the `P12_PASSWORD` secret.
+
+To create the `BUILD_CERTIFICATE_BASE64` secret, run:
+
+```sh
+base64 -i app.p12 | pbcopy
+```
+
+The certificate contents will be copied to your clipboard so you can paste them into the `BUILD_CERTIFICATE_BASE64` secret.
+
+## Create the Provisioning Profile
+
+Sign in to the [Apple Developer Portal](https://developer.apple.com/account/resources/profiles/list).
+
+1. Go to `Certificates, Identifiers & Profiles` > `Profiles`.
+2. Click the `+` button.
+3. Choose the `App Store Connect` distribution option and click `Continue`.
+4. Select your app and click `Continue`.
+5. Select the distribution certificate and click `Continue`.
+6. Give the profile a name and click `Generate`.
+7. Save the file as `profile.mobileprovision`.
+
+To create the `BUILD_PROVISION_PROFILE_BASE64` secret, run:
+
+```sh
+base64 -i profile.mobileprovision | pbcopy
+```
+
+The provisioning profile contents will be copied to your clipboard so you can paste them into the `BUILD_PROVISION_PROFILE_BASE64` secret.
+
+## Create a Keychain Password
+
+Create a random password and save it as the `KEYCHAIN_PASSWORD` repository secret.
+
+## Create archive.plist
+
+Create `archive.plist` in your `ios` directory with the following content:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>method</key>
+  <string>app-store</string>
+  <key>provisioningProfiles</key>
+  <dict>
+    <key>[your-bundle-id]</key>
+    <string>[provisioning-profile-name]</string>
+  </dict>
+</dict>
+</plist>
+```
+
+Replace `[your-bundle-id]` with your bundle identifier and `[provisioning-profile-name]` with the name of the provisioning profile you created.
+
+The `xcodebuild archive` command uses this file to export the `.ipa`.
+
+## Summary
+
+At this point, GitHub Actions has the files and secrets it needs to build your iOS app.
+
+Review the build steps for your own project. For example, the workflow uses `npm run build`, but you may want to swap that for a production-specific build command.
+
+The next step is extending this workflow to send the build to TestFlight.

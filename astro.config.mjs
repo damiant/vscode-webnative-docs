@@ -43,6 +43,10 @@ export default defineConfig({
 				{
 					label: 'Integrations',
 					autogenerate: { directory: 'integrations' },
+				},
+				{
+					label: 'Articles',
+					autogenerate: { directory: 'articles' },
 				}
 			],
 			customCss: [
