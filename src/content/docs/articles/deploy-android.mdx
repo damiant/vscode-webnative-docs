@@ -1,0 +1,116 @@
+---
+title: Deploy Android
+description: Guide for building your Android app with GitHub Actions.
+---
+
+If you use GitHub to host your code, you can use GitHub Actions to build your app for Android. This is the first step in automating deployment to the Play Store.
+
+This guide follows the same workflow as the Ionic tutorial for building an Android app with GitHub Actions.
+
+1. Create a `.github/workflows` directory in your project root.
+2. Create a file named `app-android.yml` with the following content:
+
+```yaml
+name: Build Android
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: Build AAB
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Install app dependencies
+        run: npm install
+
+      - name: Build project app
+        run: npm run build
+
+      - name: Capacitor sync
+        run: npx cap sync
+
+      - name: Build app bundle
+        run: cd android && ./gradlew bundle
+
+      - name: Extract Android signing key from env
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" > android/release.jks.base64
+          base64 -d android/release.jks.base64 > android/release.decrypted.jks
+
+      - name: Sign build
+        run: jarsigner -keystore android/release.decrypted.jks -storepass "${{ secrets.KEYSTORE_PASSWORD }}" -signedjar ./android/app/build/outputs/bundle/release/app-release-signed.aab ./android/app/build/outputs/bundle/release/app-release.aab dust
+
+      - name: Upload release bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: android/app/build/outputs/bundle/release/app-release-signed.aab
+          retention-days: 60
+```
+
+This workflow requires the following repository secrets. In your GitHub repository, go to `Settings` > `Secrets and variables` > `Actions` and create these secrets:
+
+- `KEYSTORE_BASE64`
+- `KEYSTORE_PASSWORD`
+- `KEY_ALIAS`
+- `KEY_PASSWORD`
+
+## Create a Service Account
+
+Sign in to the [Google Cloud Platform Console](https://console.cloud.google.com/home/dashboard).
+
+1. Go to `APIs & Services` > `Credentials`.
+2. Click `Create Credentials`.
+3. Select `Service Account Key`.
+4. Create the service account key required for your Android publishing workflow.
+
+## The Keystore File
+
+If you do not already have a keystore file, create one with:
+
+```sh
+keytool -genkey -v -keystore keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias release
+```
+
+Follow the prompts and confirm the values when asked. You will be prompted for:
+
+- A keystore password, which you should save as `KEYSTORE_PASSWORD`
+- An alias, which you should save as `KEY_ALIAS`
+- A key password, which you should save as `KEY_PASSWORD`
+
+Do not commit the keystore file to your repository. Add it to `.gitignore` if needed.
+
+To create the `KEYSTORE_BASE64` secret, run:
+
+```sh
+base64 -i keystore.jks | pbcopy
+```
+
+The keystore contents will be copied to your clipboard so you can paste them into the `KEYSTORE_BASE64` secret.
+
+## Summary
+
+GitHub Actions should now have the files and secrets required to build your Android app.
+
+Review the build command, signing process, and output artifact path for your project before using the workflow in production.
+
+The next step is extending this workflow to send the build to the Play Store.

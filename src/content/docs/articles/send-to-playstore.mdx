@@ -1,0 +1,77 @@
+---
+title: Send to the Play Store
+description: Guide for uploading your Android build to the Play Store with GitHub Actions.
+---
+
+In the previous tutorial, the final step was uploading the Android App Bundle as a GitHub Actions artifact. You can extend that workflow to publish the signed `.aab` directly to the Play Store.
+
+This guide follows the same flow as the Ionic tutorial for sending an Android build to the Play Store.
+
+You will need to upload your `.aab` file to the Play Store manually at least once before automating the process.
+
+Open `.github/workflows/app-android.yml` and add the following step:
+
+```yaml
+      - name: Upload to Play Store
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: [your-bundle-id]
+          releaseFiles: android/app/build/outputs/bundle/release/app-release-signed.aab
+          track: production
+          status: completed
+          whatsNewDirectory: distribution/whatsnew
+          debugSymbols: app/intermediates/merged_native_libs/release/out/lib
+```
+
+Replace `[your-bundle-id]` with the package name of your application, for example `com.example.MyApp`.
+
+This workflow requires a `SERVICE_ACCOUNT_JSON` secret in your GitHub repository.
+
+## Configure Service Account
+
+1. Enable the Google Play Android Developer API.
+2. Go to [Google Play Android Developer API](https://console.cloud.google.com/apis/library/androidpublisher.googleapis.com) and click `Enable`.
+3. Create a new service account in Google Cloud Platform.
+4. Open [Google Cloud Console](https://cloud.google.com/gcp).
+5. Go to `IAM & Admin` > `Service accounts` > `Create service account`.
+6. Pick a name for the new account and do not grant it any permissions.
+
+To use the account from GitHub Actions, the simpler option is to store the account key in GitHub secrets:
+
+1. Open the newly created service account.
+2. Open the `Keys` tab and add a new key using the `JSON` type.
+3. Save the downloaded JSON file.
+4. Store the contents of that file in a GitHub secret named `SERVICE_ACCOUNT_JSON`.
+5. Use `serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}` in the workflow step.
+
+An alternative is workload identity authentication, which is more secure and recommended by Google Cloud. That approach uses `google-github-actions/auth@v2` to create short-lived credentials and then passes `serviceAccountJson: ${{ steps.auth.outputs.credentials_file_path }}` to the Play Store upload action.
+
+After creating the service account, add it to Google Play Console:
+
+1. Open [Google Play Console](https://play.google.com/console) and choose your developer account.
+2. Open `Users and permissions`.
+3. Click `Invite new user` and add the email address of the service account.
+4. Grant access to the app you want the service account to deploy in `App permissions`.
+
+## Creating your "What's New"
+
+The `whatsNewDirectory` option points to localized changelog files. A typical structure looks like this:
+
+```text
+distribution/
+└─ whatsnew/
+   ├─ whatsnew-en-US
+   ├─ whatsnew-de-DE
+   └─ whatsnew-ja-JP
+```
+
+Each file should contain the release notes for that locale.
+
+## Summary
+
+Running these steps will allow you to send your Android app to the Play Store as part of your automated build process.
+
+Review the selected track, release status, and service account permissions before using the workflow in production.
+
+This workflow builds on the Android deployment process described in [Deploy Android](/articles/deploy-android/).
